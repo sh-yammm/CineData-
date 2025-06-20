@@ -69,7 +69,7 @@ class UserRegistration(APIView):
 
                 profile.save()
 
-                otp = '1234'
+                otp = get_otp()
 
                 otp_obj = OTP.objects.create(user = profile,otp=otp)
 
