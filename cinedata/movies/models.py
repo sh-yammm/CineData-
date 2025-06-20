@@ -2,6 +2,8 @@ from django.db import models
 
 import uuid
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 # Create your models here.
 
 
@@ -145,3 +147,21 @@ class Movies(BaseClass):
         verbose_name = 'Movies' 
 
         verbose_name_plural = 'Movies'
+
+class Rating(BaseClass):
+
+    movie = models.ForeignKey('Movies', on_delete=models.CASCADE)
+
+    user = models.ForeignKey('authentication.Profile', on_delete=models.CASCADE)
+
+    rating = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(10)])
+
+    def __str__(self):
+
+        return f"{self.movie.name} - {self.rating} by {self.user.email}"
+    
+    class Meta:
+
+        verbose_name = 'Ratings'
+
+        verbose_name_plural = 'Ratings'

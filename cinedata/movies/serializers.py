@@ -1,16 +1,25 @@
 from rest_framework import serializers
+from .models import Movies, Rating
 
-from .models import Movies
 
-
-class MoviesSerializer(serializers.ModelSerializer):
-
-    cast = serializers.PrimaryKeyRelatedField(queryset=Movies.objects.all(), many=True)
+class MoviesListRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
 
         model = Movies
-
         fields = '__all__'
+        read_only_fields = ['uuid', 'active_status']
+        depth = 1
 
-        read_only_fields = ['uuid','active_status']
+class MoviesCreateUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Movies
+        exclude = ['cast','active_status','uuid']
+
+class RatingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = Rating 
